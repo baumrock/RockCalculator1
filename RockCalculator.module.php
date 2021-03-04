@@ -13,7 +13,7 @@ class RockCalculator extends WireData implements Module, ConfigurableModule {
   public static function getModuleInfo() {
     return [
       'title' => 'RockCalculator',
-      'version' => '1.0.2',
+      'version' => '1.0.3',
       'summary' => 'Adds a calculator to any inputfield in the PW backend.',
       'autoload' => true,
       'singular' => true,

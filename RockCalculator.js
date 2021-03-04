@@ -21,7 +21,8 @@ $(document).ready(function() {
     // round numeric results
     if($.isNumeric(result)) {
       let precision = $input.data('rockcalculator');
-      result = (result*1).toFixed(precision);
+      let round = math.round(result, precision);
+      result = round.toFixed(precision);
     }
 
     return result;
@@ -47,7 +48,10 @@ $(document).ready(function() {
 
       // hide or show tooltip
       if(!result) tooltip.hide();
-      else tooltip.show(input, result, {placement:'top'});
+      else {
+        if(event.type == 'focusout') tooltip.hide();
+        else tooltip.show(input, result, {placement:'top'});
+      }
 
       // if the event was triggered by a change or focusout
       // we update the input value
