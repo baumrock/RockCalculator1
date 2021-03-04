@@ -6,16 +6,24 @@ Add a calculator to any Inputfield in the ProcessWire backend.
 
 ## Setup
 
-At the moment there is no UI for defining fields that should support the calculator. You have two options:
+At the moment there is no UI for defining fields that should support the calculator. You have multiple options:
 
-1. RockMigrations
+1. Tracy Console
 
 ```php
 // show rockcalculator and round result to .00
+$field = $fields->get('yourfieldname');
+$field->set('rockcalculator', 2); // 2 digit precision
+$field->save();
+```
+
+2. RockMigrations
+
+```php
 $rm->setFieldData('yourfield', ['rockcalculator' => 2]);
 ```
 
-2. Hook buildForm
+3. Hook buildForm
 
 ```php
 $wire->addHookAfter("ProcessPageEdit::buildForm", function($event) {
