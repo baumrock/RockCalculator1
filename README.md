@@ -35,3 +35,7 @@ $wire->addHookAfter("ProcessPageEdit::buildForm", function($event) {
   if($f = $form->get('yourfield3')) $f->rockcalculator = 2;
 });
 ```
+
+# License
+
+See license of math.js here: https://github.com/josdejong/mathjs/blob/develop/LICENSE
