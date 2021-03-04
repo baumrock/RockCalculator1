@@ -13,7 +13,7 @@ class RockCalculator extends WireData implements Module, ConfigurableModule {
   public static function getModuleInfo() {
     return [
       'title' => 'RockCalculator',
-      'version' => '1.0.1',
+      'version' => '1.0.2',
       'summary' => 'Adds a calculator to any inputfield in the PW backend.',
       'autoload' => true,
       'singular' => true,
@@ -42,9 +42,6 @@ class RockCalculator extends WireData implements Module, ConfigurableModule {
    * Is calculator enabled on this field?
    */
   public function isEnabled($inputfield) {
-    if(!$inputfield instanceof InputfieldText AND
-      !$inputfield instanceof InputfieldInteger AND
-      !$inputfield instanceof InputfieldFloat) return false;
     if(!$field = $inputfield->hasField) return false;
     if(!$field->rockcalculator) return false;
     return true;
