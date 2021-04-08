@@ -63,11 +63,12 @@ $(document).ready(function() {
   // listen to events and fire callback
   $(document).on('keyup focus change focusout', '[data-rockcalculator]', calc);
 
-  // set result immediately when enter is pressed so that the form submit
-  // takes the calculated value (replacing german , by english . )
-  $(document).on('keydown', '[data-rockcalculator]', function(e) {
-    let key = e.keyCode || e.which;
-    let enter = 13;
-    if(key == enter) setResult(e.target);
+  // set all results of calculator fields before a form is submitted
+  $(document).on('submit', 'form', function(e) {
+    let form = e.target;
+    let $calcFields = $(form).find("input[data-rockcalculator]");
+    $.each($calcFields, function(i, $field) {
+      setResult($field);
+    });
   });
 });
