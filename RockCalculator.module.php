@@ -13,7 +13,7 @@ class RockCalculator extends WireData implements Module, ConfigurableModule {
   public static function getModuleInfo() {
     return [
       'title' => 'RockCalculator',
-      'version' => '1.0.3',
+      'version' => '1.0.4',
       'summary' => 'Adds a calculator to any inputfield in the PW backend.',
       'autoload' => true,
       'singular' => true,
@@ -44,6 +44,9 @@ class RockCalculator extends WireData implements Module, ConfigurableModule {
   public function isEnabled($inputfield) {
     if(!$field = $inputfield->hasField) return false;
     if(!$field->rockcalculator) return false;
+    if($field->inputType != "text") {
+      $this->warning("Field $field should have inputType=text to make RockCalculator work!");
+    }
     return true;
   }
 
@@ -58,12 +61,22 @@ class RockCalculator extends WireData implements Module, ConfigurableModule {
     if(!$this->isEnabled($inputfield)) return;
 
     // load files
-    $url = $this->wire->config->urls($this);
-    $this->wire->config->scripts->add($url.'lib/math.min.js');
-    $this->wire->config->scripts->add($url.'lib/tooltip.js');
-    $this->wire->config->scripts->add($url.$this->className.'.js');
-    $this->wire->config->styles->add($url.$this->className.'.css');
+    $this->wire->config->scripts->add($this->m('lib/math.min.js'));
+    $this->wire->config->scripts->add($this->m('lib/tooltip.js'));
+    $this->wire->config->scripts->add($this->m($this->className.'.js'));
+    $this->wire->config->styles->add($this->m($this->className.'.css'));
     $this->assetsLoaded = true;
+  }
+
+  /**
+   * Return url including timestamp (cache buster)
+   * @return string
+   */
+  public function m($file) {
+    $config = $this->wire->config;
+    if(!is_file($file)) $file = $config->paths($this).$file;
+    $m = "?m=".filemtime($file);
+    return str_replace($config->paths->root, $config->urls->root, $file).$m;
   }
 
   /**

@@ -6,6 +6,7 @@ $(document).ready(function() {
   // get calc result for given input
   let getResult = function(input) {
     let $input = $(input);
+    // replace german comma by english dot (which has to be used for storage)
     let str = $input.val().replace(/,/g,'.');
     try {
       if(!str) return tooltip.hide();
@@ -61,4 +62,12 @@ $(document).ready(function() {
 
   // listen to events and fire callback
   $(document).on('keyup focus change focusout', '[data-rockcalculator]', calc);
+
+  // set result immediately when enter is pressed so that the form submit
+  // takes the calculated value (replacing german , by english . )
+  $(document).on('keydown', '[data-rockcalculator]', function(e) {
+    let key = e.keyCode || e.which;
+    let enter = 13;
+    if(key == enter) setResult(e.target);
+  });
 });
